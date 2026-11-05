@@ -1,0 +1,25 @@
+{
+  "name": "upgradeable-staking",
+  "version": "1.0.0",
+  "description": "UUPS upgradeable native-ETH staking contracts (V1 -> V2 with 21-day withdrawal lock)",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "upgrade:local": "hardhat run scripts/upgrade.js --network localhost",
+    "upgrade:sepolia": "hardhat run scripts/upgrade.js --network sepolia"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/hardhat-upgrades": "^3.2.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.10"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "@openzeppelin/contracts-upgradeable": "^5.0.2"
+  }
+}
