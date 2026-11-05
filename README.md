@@ -1,63 +1,26 @@
-# Upgradeable Staking (UUPS)
+## Tech stack
 
-Native-ETH staking contract behind a UUPS proxy, built with Hardhat + OpenZeppelin Upgrades.
+![Solidity](https://img.shields.io/badge/Solidity-0.8.24-363636?style=for-the-badge&logo=solidity&logoColor=white)
+![Ethereum](https://img.shields.io/badge/Ethereum-EVM_Cancun-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
+![Hardhat](https://img.shields.io/badge/Hardhat-2.x-FFF100?style=for-the-badge&logo=ethereum&logoColor=black)
+![OpenZeppelin](https://img.shields.io/badge/OpenZeppelin-5.x-4E5EE4?style=for-the-badge&logo=openzeppelin&logoColor=white)
+![UUPS Proxy](https://img.shields.io/badge/UUPS-Upgradeable_Proxy-FF6B35?style=for-the-badge)
+![ERC-1967](https://img.shields.io/badge/ERC--1967-Proxy_Standard-00C2A8?style=for-the-badge)
+![Ethers.js](https://img.shields.io/badge/Ethers.js-v6-2535A0?style=for-the-badge&logo=ethers&logoColor=white)
+![Mocha](https://img.shields.io/badge/Mocha-Tests-8D6748?style=for-the-badge&logo=mocha&logoColor=white)
+![Chai](https://img.shields.io/badge/Chai-Assertions-A30701?style=for-the-badge&logo=chai&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![npm](https://img.shields.io/badge/npm-Package_Manager-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+![dotenv](https://img.shields.io/badge/dotenv-Config-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black)
+![Sepolia](https://img.shields.io/badge/Sepolia-Testnet-627EEA?style=for-the-badge&logo=ethereum&logoColor=white)
+![Git](https://img.shields.io/badge/Git-Version_Control-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-Hosted-181717?style=for-the-badge&logo=github&logoColor=white)
 
-| Version | Behaviour |
-|---------|-----------|
-| **V1** | `stake()` ETH, `unstake(amount)` instantly |
-| **V2** | Instant unstake disabled. `requestUnstake(amount)` then `claim(id)` after a **21-day lock** (approach #1 from the cohort notes) |
-
-The proxy address stays the same across upgrades. State (balances, owner) is preserved. V2 only appends storage.
-
-## Layout
-
-```
-contracts/StakingV1.sol   initial implementation
-contracts/StakingV2.sol   upgrade with withdrawal lock
-scripts/deploy.js         deploys V1 behind a UUPS proxy
-scripts/upgrade.js        upgrades proxy to V2 and calls initializeV2(21 days)
-test/Staking.test.js      V1 + upgrade + V2 tests
-```
-
-## Quick start
-
-```bash
-npm install
-npx hardhat compile
-npx hardhat test
-```
-
-## Local deploy and upgrade
-
-```bash
-npx hardhat node                 # terminal 1
-npm run deploy:local             # terminal 2 (writes deployments.json)
-npm run upgrade:local
-```
-
-## Sepolia
-
-```bash
-cp .env.example .env             # fill SEPOLIA_RPC_URL, PRIVATE_KEY, ETHERSCAN_API_KEY
-npm run deploy:sepolia
-npm run upgrade:sepolia
-```
-
-## Push to GitHub
-
-```bash
-git init
-git add .
-git commit -m "feat: UUPS upgradeable ETH staking (V1 + V2)"
-git branch -M main
-git remote add origin https://github.com/swastikjha008-jpg/upgradeable-staking.git
-git push -u origin main
-```
-
-## Notes
-
-- Upgrades are authorized by `onlyOwner` via `_authorizeUpgrade`.
-- Implementations call `_disableInitializers()` in the constructor.
-- `.env` is gitignored. Never commit private keys.
-- Other approaches from the notes (ERC-20 receipt token, staking an ERC-20 instead of ETH) can be added as V3 the same way.
-- Unaudited, for learning. Do not use with real funds as is.
+| Layer | Tools |
+|-------|-------|
+| Smart contracts | Solidity `0.8.24`, OpenZeppelin Contracts + Upgradeable `5.x` |
+| Upgrade pattern | UUPS proxy (ERC-1967), `@openzeppelin/hardhat-upgrades` |
+| Dev framework | Hardhat `2.x`, `@nomicfoundation/hardhat-toolbox` |
+| Testing | Mocha, Chai, Hardhat Network Helpers |
+| Client library | ethers.js `v6` |
+| Networks | Hardhat local node, Sepolia testnet |
